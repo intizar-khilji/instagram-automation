@@ -30,8 +30,8 @@ from time import sleep
 
 class insta:
     def __init__(self):
-        self.username = None
-        self.password = None
+        self.username = username
+        self.password = password
         self.otp = None
         self.NOT_FOLLOWING_BACK = 0
         self.COMMON_FOLLOWER_FOLLOWING = 1
@@ -49,9 +49,7 @@ class insta:
             elif op == 'n':
                 print('Exiting...')
 
-    def login(self, username, password, otp=False):
-        self.username = username
-        self.password = password
+    def login(self,otp=False):
         self.otp = otp
         sleep(2)
         uname_field = self.driver.find_element_by_name('username')
