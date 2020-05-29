@@ -1,1 +1,1 @@
-version 1.0
+instagram web automation - version 1.0
