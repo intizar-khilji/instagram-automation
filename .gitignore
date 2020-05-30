@@ -1,3 +1,4 @@
+.gitignore
 debug.log
 chromedriver.exe
 __pycache__/
