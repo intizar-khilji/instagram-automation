@@ -12,7 +12,7 @@ Features :-
 > Get users who are not being followed by you
 '''
 
-from info import *
+from add_user_info_here import *
 try:
     from selenium import webdriver
 except:
