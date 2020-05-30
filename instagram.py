@@ -74,7 +74,12 @@ class insta:
             self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div[3]/button[2]').click()
         except:
             sleep(2)
-            self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div[3]/button[2]').click()
+            try:
+                self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div[3]/button[2]').click()
+            except:
+                self.driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div/div/button').click()
+                sleep(3)
+                self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div[3]/button[2]').click()
 
         sleep(0.2)
     
@@ -204,14 +209,17 @@ class insta:
             self.driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/div[1]/div[1]/span/span[1]/button').click()
         except:
             self.driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/div[1]/button').click()
-        i=0
+        i=1
         k=3
         while i<number:
             sleep(1)
             try:
                 self.driver.find_element_by_xpath(f'//*[@id="react-root"]/section/main/div/div[2]/div[2]/div/div/div/ul/li[{k}]/div/div/div/div/button[2]').click()
             except:
-                print('Following Finished.')
+                try:
+                    self.driver.find_element_by_xpath(f'//*[@id="react-root"]/section/main/div/div[1]/div[2]/div/div/div/ul/li[{k}]/div/div/div/div/button[2]')
+                except:
+                    print('Following Finished.')
                 break
             k+=1
             i+=1

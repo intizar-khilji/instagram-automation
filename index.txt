@@ -1,1 +1,1 @@
-instagram web automation using selenium - version 1.0
+instagram web automation using selenium - version 1.0.1
