@@ -185,7 +185,7 @@ class insta:
         if op == 'y' or op == 'Y':
             with open('ff_{}.txt'.format(str(datetime.datetime.now().strftime('%y%m%d%H%M%S'))), 'w') as f:
                 for name in names:
-                    f.write(name)
+                    f.write(name+'\n')
 
     def __getnames(self,xpath):
         sleep(1)
