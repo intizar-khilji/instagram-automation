@@ -1,6 +1,6 @@
 '''
 Instagram automation using python (c)Intzar
-version 1.0
+version 1.0.2
 
 
 Features :-
@@ -27,6 +27,7 @@ except:
         sys.exit()
 
 from time import sleep
+import datetime
 
 class insta:
     def __init__(self):
@@ -179,6 +180,12 @@ class insta:
         names.sort()
         for name in names:
             print(name)
+        
+        op = input('Write output on text file (y/n): ')
+        if op == 'y' or op == 'Y':
+            with open('ff_{}.txt'.format(str(datetime.datetime.now().strftime('%y%m%d%H%M%S'))), 'w') as f:
+                for name in names:
+                    f.write(name)
 
     def __getnames(self,xpath):
         sleep(1)
