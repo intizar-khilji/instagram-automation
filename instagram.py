@@ -1,6 +1,6 @@
 '''
 Instagram automation using python (c)Intzar
-version 1.0.2
+version 1.0.3
 
 
 Features :-
@@ -29,7 +29,7 @@ except:
 from time import sleep
 import datetime
 
-class insta:
+class Instagram:
     def __init__(self):
         self.username = username
         self.password = password
@@ -76,11 +76,11 @@ class insta:
         except:
             sleep(2)
             try:
-                self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div[3]/button[2]').click()
+                self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div/div[3]/button[2]').click()
             except:
                 self.driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div/div/button').click()
                 sleep(3)
-                self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div[3]/button[2]').click()
+                self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div/div[3]/button[2]').click()
 
         sleep(0.2)
     
@@ -97,17 +97,19 @@ class insta:
                 print(e)
                 print('-'*25)
 
-    def unfollow(self,number=None,uname=None):
-        if self.driver.current_url != f'https://www.instagram.com/{self.username}/':
-            self.driver.get(f'https://www.instagram.com/{self.username}/')
+# unfollow automatic
+# args uname = None and number = None -> unfollow all following
+# args uname != None or give username it unfollow automatic
+# args uname == None and number != None -> unfollow from following upto a specific number
+    def unfollow(self,uname=None, number=None):
         if uname != None:
-            self.driver.get(f'https://www.instagram.com/{username}/')
+            self.driver.get(f'https://www.instagram.com/{uname}/')
             sleep(1)
             self.driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/div[1]/div[2]/span/span[1]/button').click()
             sleep(0.5)
-            self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div[3]/button[1]').click()
-
+            self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div/div[3]/button[1]').click()
         else:
+            self.profile()
             try:
                 follwing_count = self.driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/ul/li[3]/a/span').text
                 follwing_box = self.driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/ul/li[3]/a').click()
@@ -117,7 +119,7 @@ class insta:
                 print('-'*25)
             i, n, k= 0, (int(follwing_count)//10)+1, 1
             sleep(2)
-            follwoing_scroll_box = self.driver.find_element_by_xpath('/html/body/div[4]/div/div[2]')
+            follwoing_scroll_box = self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div[2]')
             while i<n:
                 j=0
                 if number is not None and k >= number:
@@ -127,20 +129,18 @@ class insta:
                         break
                     sleep(1)
                     try:
-                        self.driver.find_element_by_xpath(f'/html/body/div[4]/div/div[2]/ul/div/li[{k}]/div/div[3]/button').click()
+                        self.driver.find_element_by_xpath(f'/html/body/div[4]/div/div/div[2]/ul/div/li[{k}]/div/div[2]/button').click()
                     except:
                         try:
-                            self.driver.find_element_by_xpath(f'/html/body/div[4]/div/div[2]/ul/div/li[{k}]/div/div[2]/button').click()
+                            self.driver.find_element_by_xpath(f'/html/body/div[4]/div/div/div[2]/ul/div/li[{k}]/div/div[3]/button').click()
                         except:
                             break
-
                     sleep(1)
-
                     try:
-                        self.driver.find_element_by_xpath('/html/body/div[5]/div/div/div[3]/button[1]').click()
+                        self.driver.find_element_by_xpath('/html/body/div[5]/div/div/div/div[3]/button[1]').click()
                     except:
                         try:
-                            self.driver.find_element_by_xpath('/html/body/div[5]/div/div/div[2]/button[1]').click()
+                            self.driver.find_element_by_xpath('/html/body/div[5]/div/div/div/div[2]/button[1]').click()
                         except:
                             break
                     k+=1
@@ -148,17 +148,22 @@ class insta:
                 sleep(1)
                 self.driver.execute_script('arguments[0].scrollTo(0,arguments[0].scrollHeight)', follwoing_scroll_box)
                 i+=1
-            self.driver.find_element_by_xpath('/html/body/div[4]/div/div[1]/div/div[2]/button').click()
-        
+            self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div[1]/div/div[2]/button').click()
+
+# Logout after all operations
     def logout(self):
         if self.driver.current_url != f'https://www.instagram.com/{self.username}/':
             self.driver.get(f'https://www.instagram.com/{self.username}/')
         sleep(2)
         self.driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/div[1]/div/button').click()
         sleep(1)
-        self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div/button[9]').click()
+        try:
+            self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div/button[9]').click()
+        except:
+            self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div/div/button[9]').click()
         sleep(2)
 
+# Operations on followers and following count
     def followers_following(self,option = 0):
         if self.driver.current_url != f'https://www.instagram.com/{self.username}/':
             self.driver.get(f'https://www.instagram.com/{self.username}/')
@@ -186,6 +191,12 @@ class insta:
             with open('ff_{}.txt'.format(str(datetime.datetime.now().strftime('%y%m%d%H%M%S'))), 'w') as f:
                 for name in names:
                     f.write(name+'\n')
+        if option == 0:
+            op2 = input('Do you want to unfollow above peoples (y/n) : ')
+            if op2 == 'y':
+                for name in names:
+                    self.unfollow(name)
+                    sleep(0.5)
 
     def __getnames(self,xpath):
         sleep(1)
@@ -198,14 +209,14 @@ class insta:
             print('-'*25)
         i, n = 0, int(count)//10+1
         sleep(2)
-        scroll_box = self.driver.find_element_by_xpath('/html/body/div[4]/div/div[2]')
+        scroll_box = self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div[2]')
         while i < n:
             sleep(1)
             self.driver.execute_script('arguments[0].scrollTo(0,arguments[0].scrollHeight)',scroll_box)
             i+=1
         user_links = scroll_box.find_elements_by_tag_name('a')
         names = [name.text for name in user_links if name != '']
-        self.driver.find_element_by_xpath('/html/body/div[4]/div/div[1]/div/div[2]/button').click()
+        self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div[1]/div/div[2]/button').click()
         return names
 
     def follow(self,uname, number=1):
