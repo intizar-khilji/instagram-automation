@@ -235,7 +235,7 @@ class Instagram:
                 self.driver.find_element_by_xpath(f'//*[@id="react-root"]/section/main/div/div[2]/div[2]/div/div/div/ul/li[{k}]/div/div/div/div/button[2]').click()
             except:
                 try:
-                    self.driver.find_element_by_xpath(f'//*[@id="react-root"]/section/main/div/div[1]/div[2]/div/div/div/ul/li[{k}]/div/div/div/div/button[2]')
+                    self.driver.find_element_by_xpath(f'//*[@id="react-root"]/section/main/div/div[1]/div[2]/div/div/div/ul/li[{k}]/div/div/div/div/button[2]').click()
                 except:
                     print('Following Finished.')
                 break
