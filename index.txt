@@ -1,1 +1,5 @@
-instagram web automation using selenium - version 1.0.2
+instagram web automation using selenium - version 1.0.3
+--Prerequisites--
+python interpreter
+selenium
+chromedriver
